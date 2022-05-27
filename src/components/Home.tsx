@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSort, HeaderCellSort } from '@table-library/react-table-library/sort';
+import { usePagination } from '@table-library/react-table-library/pagination';
 import './styles.home.scss';
 import {
   Header,
@@ -64,6 +65,18 @@ function Home() {
   ),
 }
 
+  const pagination = usePagination(dataUser, {
+    state: {
+      page: 0,
+      size: 10
+    },
+    onChange: onPaginationChange,
+  })
+
+  function onPaginationChange(action:any, state:any) {
+    console.log(action, state);
+  }
+
   const handleClick = (id:any, slug:any) => {
     console.log(id)
     console.log(dataUser)
@@ -86,7 +99,7 @@ function Home() {
         </div>
       </label>
 
-      <Table data={userNodes && userNodes} sort={sort}>
+      <Table data={userNodes && userNodes} sort={sort} pagination={pagination}>
         {(tableList) => (
           <>
           <Header>
@@ -113,6 +126,36 @@ function Home() {
           </>
         )}
       </Table>
+      <div
+        style={{ display: 'flex', justifyContent: 'space-between' }}
+      >
+        <span>
+          
+          Total Pages: {
+                // @ts-ignore
+          pagination.state.getTotalPages(dataUser)}
+        </span>
+
+        <span>
+          Page:{' '}
+          {    // @ts-ignore
+          pagination.state.getPages(dataUser).map((_:any, index:any) => (
+            <button
+              key={index}
+              type="button"
+              style={{
+                fontWeight:
+                  pagination.state.page === index
+                    ? 'bold'
+                    : 'normal',
+              }}
+              onClick={() => pagination.fns.onSetPage(index)}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </span>
+      </div>
     </div>
   );
 }
