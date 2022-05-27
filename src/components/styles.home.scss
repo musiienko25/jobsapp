@@ -1,0 +1,9 @@
+.home {
+    &__search {
+        display: flex;
+        align-items: center;
+        & p {
+            margin-right: 5px;
+        }
+    }
+}

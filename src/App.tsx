@@ -1,4 +1,4 @@
-import Modal from './components/Modal'
+import PageInfo from './components/PageInfo'
 import './App.css';
 
 import Home from './components/Home';
@@ -9,7 +9,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/post/:id" element={<Modal />} />
+        <Route path="/post/:id" element={<PageInfo />} />
       </Routes>
     </Router>
   );

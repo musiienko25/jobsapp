@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSort, HeaderCellSort } from '@table-library/react-table-library/sort';
-import Modal from './Modal'
-import '../App.css';
+import './styles.home.scss';
 import {
   Header,
   HeaderRow,
@@ -12,7 +11,7 @@ import {
   Cell,
 } from '@table-library/react-table-library';
 import  { useNavigate }  from 'react-router-dom';
-
+import { Input, Text } from "@nextui-org/react";
 interface Person {
   company_name: string
   created_at: number
@@ -30,11 +29,8 @@ function Home() {
   const navigate = useNavigate();
   const [dataUser, setdataUser] = useState<any>([])
   const [search, setSearch] = useState<string>('');
-  const [modal, setModal] = useState<boolean>(false);
-  const [modalInfo, setModalInfo] = useState<any>();
 
   const handleSearch = (event:any) => {
-    console.log(typeof(event))
     setSearch(event.target.value);
   };
     // its just for library hooks
@@ -52,12 +48,12 @@ function Home() {
       .then((res) => res.json())
       .then((data) => {
         setdataUser(data.data);
-      });
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+      ;
   }, []);
-
-  useEffect(() => {
-    console.log(dataUser)
-  }, [dataUser]);
 
   const userNodes:any = {nodes: dataUser.filter((item:Person) =>
     (item.company_name.toLowerCase().includes(search.toLowerCase()) || 
@@ -74,24 +70,20 @@ function Home() {
     // @ts-ignore
     dataUser.find(e => {
       if (e.url === id) {
-        console.log(e)
-        setModalInfo(e)
-        setModal(true)
-
         navigate(`/post/${slug}`, {
             state: e
         });
       }
-
     })
   }
 
   return (
-    <>
-      {/* {modal && <Modal modalInfo={modalInfo}/>} */}
+    <div className='home'>
       <label htmlFor="search">
-        Search by Name:
-        <input id="search" type="text" onChange={handleSearch} />
+        <div className='home__search'>
+            <Text size={18} weight="bold"> Search:</Text> 
+            <Input id="search" type="text" onChange={handleSearch} placeholder="Search" />
+        </div>
       </label>
 
       <Table data={userNodes && userNodes} sort={sort}>
@@ -121,7 +113,7 @@ function Home() {
           </>
         )}
       </Table>
-    </>
+    </div>
   );
 }
 
