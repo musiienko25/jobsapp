@@ -14,6 +14,14 @@
         padding: 7px;
     }
     & div[role=row]:hover {
-        color: #999797
+        color: #999797;
+        background-color: #b7b7b7;
+    }
+    & div[role=row] {
+        border-bottom: 1px solid black;
+        height: 45px;
+    }
+    &__table {
+        margin-top: 10px;
     }
 }

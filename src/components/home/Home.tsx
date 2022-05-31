@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, SyntheticEvent } from 'react';
 import { useSort, HeaderCellSort } from '@table-library/react-table-library/sort';
 import './styles.home.scss';
 import {
@@ -12,6 +12,8 @@ import {
 } from '@table-library/react-table-library';
 import  { useNavigate }  from 'react-router-dom';
 import { Input, Text } from "@nextui-org/react";
+import {api} from '../api/api';
+
 interface Person {
   company_name: string
   created_at: number
@@ -24,6 +26,8 @@ interface Person {
   title: string
   url: string
 }
+
+
 
 function Home() {
   const navigate = useNavigate();
@@ -44,7 +48,7 @@ function Home() {
   });
 
   useEffect(() => {
-    fetch('https://www.arbeitnow.com/api/job-board-api')
+    fetch(api)
       .then((res) => res.json())
       .then((data) => {
         setdataUser(data.data);
@@ -63,10 +67,9 @@ function Home() {
     )
   ),
 }
+  console.log(userNodes)
 
-  const handleClick = (id:any, slug:any) => {
-    console.log(id)
-    console.log(dataUser)
+  const handleClick = (id:string, slug:string) => {
     // @ts-ignore
     dataUser.find(e => {
       if (e.url === id) {
@@ -88,7 +91,7 @@ function Home() {
 
       <Table data={userNodes && userNodes} sort={sort}>
         {(tableList) => (
-          <>
+          <div className='home__table'>
           <Header >
             <HeaderRow>
               <HeaderCellSort sortKey="NAME">Name</HeaderCellSort>
@@ -103,14 +106,14 @@ function Home() {
                 <Row key={item.url} item={item} onClick={() => handleClick(item.url, item.slug)}>
                   <Cell>{item.company_name}</Cell>
                   <Cell>
-                    {item.slug}
+                    {item.slug.length > 14 ? `${item.slug.slice(0, 18)}...` : null}
                   </Cell>
                   <Cell>{item.location}</Cell>
-                  <Cell>{item.title}</Cell>
+                  <Cell>{item.title.length > 14 ? `${item.title.slice(0, 18)}...` : null}</Cell>
                 </Row>
               ))}
             </Body>
-          </>
+          </div>
         )}
       </Table>
     </div>
