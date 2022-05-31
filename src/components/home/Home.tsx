@@ -89,7 +89,7 @@ function Home() {
       <Table data={userNodes && userNodes} sort={sort}>
         {(tableList) => (
           <>
-          <Header>
+          <Header >
             <HeaderRow>
               <HeaderCellSort sortKey="NAME">Name</HeaderCellSort>
               <HeaderCell>Slug</HeaderCell>

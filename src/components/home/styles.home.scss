@@ -1,9 +1,19 @@
 .home {
+    margin: 10px;
     &__search {
         display: flex;
         align-items: center;
         & p {
             margin-right: 5px;
         }
+    }
+
+    & .tr-header {
+        background-color: #161616;
+        color: white;
+        padding: 7px;
+    }
+    & div[role=row]:hover {
+        color: #999797
     }
 }
